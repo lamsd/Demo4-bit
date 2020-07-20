@@ -90,7 +90,15 @@ namespace Demo4 {
         //% block="Port 1"
         port1 = 0x01
     }
-	
+    export enum demo_photocellValue {
+        //% block="Port 1"
+        port1 = 0x01
+    }
+    export enum demo_analogSoilHumiditylValue {
+        //% block="Port 1"
+        port1 = 0x01
+    }
+    
     export enum demo_photosensitivePort {
         //% block="Port 1"
         port1 = 0x01	    
@@ -217,123 +225,7 @@ namespace Demo4 {
         serial.writeBuffer(buf);
     }
 	
-    // /**
-    // * Set the servo controller to run a actiongroup
-    // * @param times Running times. eg: 1
-    // */
-    // //% weight=96 blockId=demo_runActionGroup block="Run ActionGroup|index %index|times %times" group="2. Servo-Motor." advanced=true
-    // export function demo_runActionGroup(index: number, times: number = 1) {
-
-    //     let buf = pins.createBuffer(7);
-    //     buf[0] = 0x55;
-    //     buf[1] = 0x55;
-    //     buf[2] = 0x05;
-    //     buf[3] = 0x06;//cmd type CMD_ACTION_GROUP_RUN
-    //     buf[4] = index & 0xff;
-    //     buf[5] = times & 0xff;
-    //     buf[6] = (times >> 8) & 0xff;
-
-    //     actiongroup_finished = false;
-    //     serial.writeBuffer(buf);
-    // }
-	
-    // /**
-    // * Stop running actiongroup
-    // */
-    // //% weight=95 blockId=demo_stopnActionGroup block="Stop ActionGroup" group="2. Servo-Motor." advanced=true
-    // export function demo_stopActionGroup() {
-
-    //     let buf = pins.createBuffer(7);
-    //     buf[0] = 0x55;
-    //     buf[1] = 0x55;
-    //     buf[2] = 0x02;
-    //     buf[3] = 0x07;//cmd type CMD_ACTION_GROUP_STOP
-	    
-	// actiongroup_finished = false;
-    //     serial.writeBuffer(buf);
-    // }
-	
-    // /**
-    //  * Wait for Actiongroup Finishing
-    //  */
-    // //% weight=94 blockId=demo_actionRunover block="Action run over" group="2. Servo-Motor." advanced=true
-    // export function demo_actionRunover(): boolean {
-    //     // let ret = false;
-    //     if (actiongroup_finished == true) {
-    //         // ret = true;
-    //         actiongroup_finished = true;
-    //     }
-    //     else {
-    //         actiongroup_finished = false;
-    //     }
-    //     return actiongroup_finished;
-    // }
-
-	
-    // /**
-    //  * Send read demo servos angle command
-    //  */
-    // //% weight=92 blockId=demo_readAngle block="Send |%servo|angle command " group="2. Servo-Motor." advanced=true
-    // export function demo_readAngle(servo: demo_Servos) {
-    //     let buf = pins.createBuffer(6);
-    //     buf[0] = 0x55;
-    //     buf[1] = 0x55;
-    //     buf[2] = 0x04;
-    //     buf[3] = 0x3E;//cmd type
-    //     buf[4] = 0x05;
-    //     buf[5] = servo;
-    //     serial.writeBuffer(buf);
-    // }
-
-
-    // /**
-    //  * Do someting when Demo receive angle
-    //  * @param body code to run when event is raised
-    //  */
-    // //% weight=90 blockId=onStartbit_getAngle block="on Demo|%servo|get angle" group="2. Servo-Motor." advanced=true
-    // export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
-    //     control.onEvent(MESSAGE_ANGLE, servo, body);
-    // }
-
-
-    // /**
-    //  *  Get servos angle
-    //  */
-    // //% weight=88 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)" group="2. Servo-Motor." advanced=true
-    // export function getServosAngle(servo: startbit_Servos): number {
-    //     if (servo == startbit_Servos.Servo1) {
-    //         return servo1Angle;
-    //     }
-    //     else if (servo == startbit_Servos.Servo2) {
-    //         return servo2Angle;
-    //     }
-    //     else
-    //         return 0xFFF;
-    // }
     
-//     /**
-//      *  Send robot attitude to the servo controller
-//      *  @param pitch eg: 0
-//      *  @param roll eg: 0
-//      */
-//     //% weight=91 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
-//    /*
-//     export function startbit_sendAttitude(pitch: number, roll: number) {
-//         pitch < -90 ? -90 : pitch;
-//         pitch > 90 ? 90 : pitch;
-//         roll < -90 ? -90 : roll;
-//         roll > 90 ? 90 : roll;
-
-//         let buf = pins.createBuffer(6);
-//         buf[0] = 0x55;
-//         buf[1] = 0x55;
-//         buf[2] = 0x04;
-//         buf[3] = 0x5A;
-//         buf[4] = pitch;
-//         buf[5] = roll;
-//         serial.writeBuffer(buf);
-//     }
-//     */
 	
     /**
     *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
@@ -875,7 +767,7 @@ namespace Demo4 {
     * Port 1: P2 --- digital
     */
     //% weight=78 blockId=demo_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright" group="3. Sensor."  advanced=true
-    export function startbit_photosensitiveSensor(port: demo_PhotosensitiveSensor): boolean {
+    export function demo_photosensitiveSensor(port: demo_PhotosensitiveSensor): boolean {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
@@ -1004,7 +896,7 @@ namespace Demo4 {
     * port 3: 
     */
     //% weight=82 blockId=demo_touchButton block="Touch button|port %port|is pressed"    group="5. Mechaincs." 
-    export function startbit_touchButton(port: demo_touchKeyPort): boolean {
+    export function demo_touchButton(port: demo_touchKeyPort): boolean {
         let status: boolean = false;
         switch (port) {
             case demo_touchKeyPort.port1:
@@ -1028,11 +920,29 @@ namespace Demo4 {
     * Get the ad value of the knob moudule
     */
     //% weight=80 blockId=startbit_getKnobValue  block="Get knob|port %port|value(0~255)" group="5. Mechaincs." advanced=true
-    export function startbit_getKnobValue(port: demo_knobPort): number {
+    export function demo_getKnobValue(port: demo_knobPort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
         return adValue;
     }   
+    /**
+    * Get the ad value of the  photocell sensor  moudule
+    */
+    //% weight=80 blockId=demo_getphotocellValue  block="Get photocell|port %port|value(0~255)" group="5. Mechaincs." advanced=true
+    export function demo_getphotocellValue(port: demo_photocellValue): number {
+        let adValue = pins.analogReadPin(AnalogPin.P1);
+        adValue = adValue * 255 / 1023;
+        return adValue;
+    }
+        /**
+    * Get the analog value  of the  soil humidity sensor moudule
+    */
+    //% weight=80 blockId=Demo_getanalogSoilHumiditylValue  block="Get soid humidity|port %port|value(0~255)" group="5. Mechaincs." advanced=true
+    export function demo_getanalogSoilHumiditylValue(port: demo_analogSoilHumiditylValue): number {
+        let adValue = pins.analogReadPin(AnalogPin.P1);
+        adValue = adValue * 255 / 1023;
+        return adValue;
+    }
 
 
     /**
