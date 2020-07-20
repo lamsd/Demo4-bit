@@ -1,10 +1,10 @@
 /*
- startbit package
+ Demo package
 */
 //% weight=10 icon="\ue312" color=#2896ff block="Demo4:bit"
-namespace startbit {
+namespace Demo4 {
 
-    export enum startbit_Colors {
+    export enum demo_Colors {
         //% block="Red"
         Red = 0x01,
         //% block="Green"
@@ -19,7 +19,7 @@ namespace startbit {
         None = 0x06
     }
 
-    export enum startbit_lineFollower {
+    export enum demo_lineFollower {
         //% blockId="S1_OUT_S2_OUT" block="Sensor1 and sensor2 are out black line"
         S1_OUT_S2_OUT = 0x00,
         //% blockId="S1_OUT_S2_IN" block="Sensor2 in black line but sensor1 not"
@@ -30,29 +30,29 @@ namespace startbit {
         S1_IN_S2_IN = 0x03
     }
 
-    export enum startbit_colorSensorPort {
+    export enum demo_colorSensorPort {
         //% block="Port 4"
         port4 = 0x04
     }
-    export enum startbit_LCDPort {
+    export enum demo_LCDPort {
         //% block="Port 4"
         port4 = 0x04
     }
-    export enum startbit_Servos {
+    export enum demo_Servos {
         //% block="servo 1"
         Servo1 = 0x01,
         //% block="servo 2"
         Servo2 = 0x02
     }
 
-    export enum startbit_ultrasonicPort {
+    export enum demo_ultrasonicPort {
         //% block="Port 1"
         port1 = 0x01,
         //% block="Port 2"
         port2 = 0x02
     }
 
-    export enum startbit_touchKeyPort {
+    export enum demo_touchKeyPort {
         //% block="Port 1"
         port1 = 0x01,
         //% block="Port 2"
@@ -61,61 +61,61 @@ namespace startbit {
         port3 = 0x03
     }
 
-    export enum startbit_lineFollowPort {
+    export enum demo_lineFollowPort {
         //% block="Port 1"
         port1 = 0x01
     }
 
 
-    export enum startbit_PinIOStatus {
+    export enum demo_PinIOStatus {
         //% block="Low"
         Low = 0x00,
         //% block="High"
         Hight = 0x01
     }
 
-    export enum startbit_LineFollowerSensor {
+    export enum demo_LineFollowerSensor {
         //% block="Sensor 1"
         LFSensor_1 = 0x00,
         //% block="Sensor 2"
         LFSensor_2 = 0x01
     }
 
-    export enum startbit_busServoPort {
+    export enum demo_busServoPort {
         //% block="Port 6"
         port6 = 0x06
     }
 
-    export enum startbit_knobPort {
+    export enum demo_knobPort {
         //% block="Port 1"
         port1 = 0x01
     }
 	
-    export enum startbit_photosensitivePort {
+    export enum demo_photosensitivePort {
         //% block="Port 1"
         port1 = 0x01	    
     }
 	
-    export enum startbit_PhotosensitiveSensor {
+    export enum demo_PhotosensitiveSensor {
         //% block="Port 1"
         port1 = 0x00	    
     }
 
-    export enum startbit_fanPort {
+    export enum demo_fanPort {
         //% block="Port 1"
         port1,
         //% block="Port 2"
         port2
     }
 
-    export enum startbit_servorange {
+    export enum demo_servorange {
         //% block="180"
         range1 = 180,
         //% block="270"
         range2 =270
     }
 	
-    export enum startbit_digitaltubePort {
+    export enum demo_digitaltubePort {
         //% block="Port 1"
         port1 = 0x01,
         //% block="Port 2"
@@ -151,10 +151,10 @@ namespace startbit {
 
 
     /**
-     * Startbit initialization, please execute at boot time
+     * Demo initialization, please execute at boot time
     */
-    //% weight=100 blockId=startbit_Init block="Initialize Startbit" group="0. Set up."
-    export function startbit_Init() {
+    //% weight=100 blockId=Demo_Init block="Initialize Demo" group="0. Set up."
+    export function demo_Init() {
         startbit_initRGBLight();
         serial.redirect(
             SerialPin.P12,
@@ -185,7 +185,7 @@ namespace startbit {
     let macStr: string = "";
     let actiongroup_finished = true;
     
-    let Digitaltube:startbit_TM1640LEDs
+    let Digitaltube:demo_TM1640LEDs
     let TM1640_CMD1 = 0x40;
     let TM1640_CMD2 = 0xC0;
     let TM1640_CMD3 = 0x80;
@@ -199,7 +199,7 @@ namespace startbit {
     //% weight=99 blockId=setServo block="Set pwm servo range|range %range|index %index|angle %angle|duration %duration" group="2. Servo-Motor."
     //% angle.min=0 angle.max=270
     //% inlineInputMode=inline
-    export function setServo(range:startbit_servorange, index: number = 1, angle: number, duration: number = 300) {
+    export function setServo(range:demo_servorange, index: number = 1, angle: number, duration: number = 300) {
 	    
         let position = mapRGB(angle, 0, range, 500, 2500);
 
@@ -217,131 +217,131 @@ namespace startbit {
         serial.writeBuffer(buf);
     }
 	
-    /**
-    * Set the servo controller to run a actiongroup
-    * @param times Running times. eg: 1
-    */
-    //% weight=96 blockId=startbit_runActionGroup block="Run ActionGroup|index %index|times %times" group="2. Servo-Motor." advanced=true
-    export function startbit_runActionGroup(index: number, times: number = 1) {
+    // /**
+    // * Set the servo controller to run a actiongroup
+    // * @param times Running times. eg: 1
+    // */
+    // //% weight=96 blockId=demo_runActionGroup block="Run ActionGroup|index %index|times %times" group="2. Servo-Motor." advanced=true
+    // export function demo_runActionGroup(index: number, times: number = 1) {
 
-        let buf = pins.createBuffer(7);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = 0x05;
-        buf[3] = 0x06;//cmd type CMD_ACTION_GROUP_RUN
-        buf[4] = index & 0xff;
-        buf[5] = times & 0xff;
-        buf[6] = (times >> 8) & 0xff;
+    //     let buf = pins.createBuffer(7);
+    //     buf[0] = 0x55;
+    //     buf[1] = 0x55;
+    //     buf[2] = 0x05;
+    //     buf[3] = 0x06;//cmd type CMD_ACTION_GROUP_RUN
+    //     buf[4] = index & 0xff;
+    //     buf[5] = times & 0xff;
+    //     buf[6] = (times >> 8) & 0xff;
 
-        actiongroup_finished = false;
-        serial.writeBuffer(buf);
-    }
+    //     actiongroup_finished = false;
+    //     serial.writeBuffer(buf);
+    // }
 	
-    /**
-    * Stop running actiongroup
-    */
-    //% weight=95 blockId=startbit_stopnActionGroup block="Stop ActionGroup" group="2. Servo-Motor." advanced=true
-    export function startbit_stopActionGroup() {
+    // /**
+    // * Stop running actiongroup
+    // */
+    // //% weight=95 blockId=demo_stopnActionGroup block="Stop ActionGroup" group="2. Servo-Motor." advanced=true
+    // export function demo_stopActionGroup() {
 
-        let buf = pins.createBuffer(7);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = 0x02;
-        buf[3] = 0x07;//cmd type CMD_ACTION_GROUP_STOP
+    //     let buf = pins.createBuffer(7);
+    //     buf[0] = 0x55;
+    //     buf[1] = 0x55;
+    //     buf[2] = 0x02;
+    //     buf[3] = 0x07;//cmd type CMD_ACTION_GROUP_STOP
 	    
-	actiongroup_finished = false;
-        serial.writeBuffer(buf);
-    }
+	// actiongroup_finished = false;
+    //     serial.writeBuffer(buf);
+    // }
 	
-    /**
-     * Wait for Actiongroup Finishing
-     */
-    //% weight=94 blockId=startbit_actionRunover block="Action run over" group="2. Servo-Motor." advanced=true
-    export function startbit_actionRunover(): boolean {
-        // let ret = false;
-        if (actiongroup_finished == true) {
-            // ret = true;
-            actiongroup_finished = true;
-        }
-        else {
-            actiongroup_finished = false;
-        }
-        return actiongroup_finished;
-    }
+    // /**
+    //  * Wait for Actiongroup Finishing
+    //  */
+    // //% weight=94 blockId=demo_actionRunover block="Action run over" group="2. Servo-Motor." advanced=true
+    // export function demo_actionRunover(): boolean {
+    //     // let ret = false;
+    //     if (actiongroup_finished == true) {
+    //         // ret = true;
+    //         actiongroup_finished = true;
+    //     }
+    //     else {
+    //         actiongroup_finished = false;
+    //     }
+    //     return actiongroup_finished;
+    // }
 
 	
-    /**
-     * Send read startbit servos angle command
-     */
-    //% weight=92 blockId=startbit_readAngle block="Send |%servo|angle command " group="2. Servo-Motor." advanced=true
-    export function startbit_readAngle(servo: startbit_Servos) {
-        let buf = pins.createBuffer(6);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = 0x04;
-        buf[3] = 0x3E;//cmd type
-        buf[4] = 0x05;
-        buf[5] = servo;
-        serial.writeBuffer(buf);
-    }
+    // /**
+    //  * Send read demo servos angle command
+    //  */
+    // //% weight=92 blockId=demo_readAngle block="Send |%servo|angle command " group="2. Servo-Motor." advanced=true
+    // export function demo_readAngle(servo: demo_Servos) {
+    //     let buf = pins.createBuffer(6);
+    //     buf[0] = 0x55;
+    //     buf[1] = 0x55;
+    //     buf[2] = 0x04;
+    //     buf[3] = 0x3E;//cmd type
+    //     buf[4] = 0x05;
+    //     buf[5] = servo;
+    //     serial.writeBuffer(buf);
+    // }
 
 
-    /**
-     * Do someting when Startbit receive angle
-     * @param body code to run when event is raised
-     */
-    //% weight=90 blockId=onStartbit_getAngle block="on Startbit|%servo|get angle" group="2. Servo-Motor." advanced=true
-    export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
-        control.onEvent(MESSAGE_ANGLE, servo, body);
-    }
+    // /**
+    //  * Do someting when Demo receive angle
+    //  * @param body code to run when event is raised
+    //  */
+    // //% weight=90 blockId=onStartbit_getAngle block="on Demo|%servo|get angle" group="2. Servo-Motor." advanced=true
+    // export function onStartbit_getAngle(servo: startbit_Servos, body: Action) {
+    //     control.onEvent(MESSAGE_ANGLE, servo, body);
+    // }
 
 
-    /**
-     *  Get servos angle
-     */
-    //% weight=88 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)" group="2. Servo-Motor." advanced=true
-    export function getServosAngle(servo: startbit_Servos): number {
-        if (servo == startbit_Servos.Servo1) {
-            return servo1Angle;
-        }
-        else if (servo == startbit_Servos.Servo2) {
-            return servo2Angle;
-        }
-        else
-            return 0xFFF;
-    }
+    // /**
+    //  *  Get servos angle
+    //  */
+    // //% weight=88 blockId=getServosAngle blockGap=50 block="Get|%servo|angle(-120~120)" group="2. Servo-Motor." advanced=true
+    // export function getServosAngle(servo: startbit_Servos): number {
+    //     if (servo == startbit_Servos.Servo1) {
+    //         return servo1Angle;
+    //     }
+    //     else if (servo == startbit_Servos.Servo2) {
+    //         return servo2Angle;
+    //     }
+    //     else
+    //         return 0xFFF;
+    // }
     
-    /**
-     *  Send robot attitude to the servo controller
-     *  @param pitch eg: 0
-     *  @param roll eg: 0
-     */
-    //% weight=91 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
-   /*
-    export function startbit_sendAttitude(pitch: number, roll: number) {
-        pitch < -90 ? -90 : pitch;
-        pitch > 90 ? 90 : pitch;
-        roll < -90 ? -90 : roll;
-        roll > 90 ? 90 : roll;
+//     /**
+//      *  Send robot attitude to the servo controller
+//      *  @param pitch eg: 0
+//      *  @param roll eg: 0
+//      */
+//     //% weight=91 blockId=startbit_sendAttitude block="Send pitch|%pitch|and roll|%roll"
+//    /*
+//     export function startbit_sendAttitude(pitch: number, roll: number) {
+//         pitch < -90 ? -90 : pitch;
+//         pitch > 90 ? 90 : pitch;
+//         roll < -90 ? -90 : roll;
+//         roll > 90 ? 90 : roll;
 
-        let buf = pins.createBuffer(6);
-        buf[0] = 0x55;
-        buf[1] = 0x55;
-        buf[2] = 0x04;
-        buf[3] = 0x5A;
-        buf[4] = pitch;
-        buf[5] = roll;
-        serial.writeBuffer(buf);
-    }
-    */
+//         let buf = pins.createBuffer(6);
+//         buf[0] = 0x55;
+//         buf[1] = 0x55;
+//         buf[2] = 0x04;
+//         buf[3] = 0x5A;
+//         buf[4] = pitch;
+//         buf[5] = roll;
+//         serial.writeBuffer(buf);
+//     }
+//     */
 	
     /**
     *	Set the speed of the number 1 motor and number 2 motor, range of -100~100, that can control the tank to go advance or turn of.
     */
-    //% weight=86 blockId=startbit_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2" group="2. Servo-Motor."
+    //% weight=86 blockId=demo_setMotorSpeed  block="Set motor1 speed(-100~100)|%speed1|and motor2|speed %speed2" group="2. Servo-Motor."
     //% speed1.min=-100 speed1.max=100
     //% speed2.min=-100 speed2.max=100
-    export function startbit_setMotorSpeed(speed1: number, speed2: number) {
+    export function demo_setMotorSpeed(speed1: number, speed2: number) {
         if (speed1 > 100 || speed1 < -100 || speed2 > 100 || speed2 < -100) {
             return;
         }
@@ -360,16 +360,16 @@ namespace startbit {
     /**
     *	Set the speed of the fan, range of -100~100. 
     */
-    //% weight=84 blockId=startbit_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1" group="2. Servo-Motor." advanced=true
+    //% weight=84 blockId=demo_setFanSpeed  block="Set |%port fan speed(-100~100)|%speed1" group="2. Servo-Motor." advanced=true
     //% speed1.min=-100 speed1.max=100
-    export function startbit_setFanSpeed(port: startbit_fanPort, speed1: number) {
+    export function demo_setFanSpeed(port: demo_fanPort, speed1: number) {
         if (speed1 > 100 || speed1 < -100) {
             return;
         }
         let pin1 = AnalogPin.P1;
         let pin2 = AnalogPin.P2;
 
-        if (port == startbit_fanPort.port2) {
+        if (port == demo_fanPort.port2) {
             pin1 = AnalogPin.P13;
             pin2 = AnalogPin.P14;
         }
@@ -624,8 +624,8 @@ namespace startbit {
     /**
      * Initialize the color sensor,please execute at boot time
      */
-    //% weight=87 blockId=startbit_init_colorSensor block="Initialize color sensor port at %port" group="1. Declaration."
-    export function startbit_init_colorSensor(port: startbit_colorSensorPort) {
+    //% weight=87 blockId=demo_init_colorSensor block="Initialize color sensor port at %port" group="1. Declaration."
+    export function demo_init_colorSensor(port: demo_colorSensorPort) {
         InitColor();
         enableLightSensor(true);
         control.waitMicros(100);
@@ -634,8 +634,8 @@ namespace startbit {
     /**
 	 *  Color sensor return the color.
 	 */
-    //% weight=86 blockId=startbit_checkCurrentColor block="Current color %color" group="3. Sensor." 
-    export function startbit_checkCurrentColor(color: startbit_Colors): boolean {
+    //% weight=86 blockId=demo_checkCurrentColor block="Current color %color" group="3. Sensor." 
+    export function demo_checkCurrentColor(color: demo_Colors): boolean {
         let c = i2cread(APDS9960_CDATAL) + i2cread(APDS9960_CDATAH) * 256;
         let r = i2cread(APDS9960_RDATAL) + i2cread(APDS9960_RDATAH) * 256;
         let g = i2cread(APDS9960_GDATAL) + i2cread(APDS9960_GDATAH) * 256;
@@ -669,30 +669,30 @@ namespace startbit {
          let hsv = rgb2hue(r, g, b);
         // serial.writeNumber(hsv);
         // serial.writeLine("->hsv");
-        let t = startbit_Colors.None;
+        let t = demo_Colors.None;
         if (c > 2200 && r > 65 && g > 65 && b > 65) {
-            t = startbit_Colors.White;
+            t = demo_Colors.White;
         }
         else if (c > 800) {
             if (hsv < 8 || hsv > 350)
-                t = startbit_Colors.Red;
+                t = demo_Colors.Red;
             else if (hsv > 60 && hsv < 170) {
-                t = startbit_Colors.Green;
+                t = demo_Colors.Green;
             }
             else if (hsv > 210 && hsv < 230) {
-                t = startbit_Colors.Blue;
+                t = demo_Colors.Blue;
             }
         }
         else if (c > 200 && r > 10 && g > 7 && b > 7 && r < 16.5 && g < 15 && b < 14) {
-            t = startbit_Colors.Black;
+            t = demo_Colors.Black;
         }
         return (color == t);
     }
     /**
     * Get the volume level detected by the sound sensor, range 0 to 255
     */
-    //% weight=82 blockId=startbit_getSoundVolume block="Sound volume" group="3. Sensor."
-    export function startbit_getSoundVolume(): number {
+    //% weight=82 blockId=demo_getSoundVolume block="Sound volume" group="3. Sensor."
+    export function demo_getSoundVolume(): number {
         return volume;
     }
 
@@ -702,20 +702,20 @@ namespace startbit {
     * Pin 13 with Port 2
     * Pin ADC with Port 3
     */
-    //% weight=85 blockId=startbit_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle" group="3. Sensor."
-    export function startbit_avoidSensor(port: startbit_touchKeyPort): boolean {
+    //% weight=85 blockId=demo_avoidSensor block="Obstacle avoidance sensor|port %port|detect obstacle" group="3. Sensor."
+    export function demo_avoidSensor(port: demo_touchKeyPort): boolean {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
-            case startbit_touchKeyPort.port1:
+            case demo_touchKeyPort.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P1);
                 break;
-            case startbit_touchKeyPort.port2:
+            case demo_touchKeyPort.port2:
                 pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P13);
                 break;
-            case startbit_touchKeyPort.port3:
+            case demo_touchKeyPort.port3:
                 if (P14_ad > 0xA)
                     status = 1
                 else
@@ -734,20 +734,20 @@ namespace startbit {
     * Pin 13 with Port 2
     * Pin ADC with Port 3
     */
-    //% weight=85 blockId=startbit_gasSensor block="gas sensor|port %port|detect Gas" group="3. Sensor."  advanced=true
-    export function startbit_gasSensor(port: startbit_touchKeyPort): boolean {
+    //% weight=85 blockId=demo_gasSensor block="gas sensor|port %port|detect Gas" group="3. Sensor."  advanced=true
+    export function demo_gasSensor(port: demo_touchKeyPort): boolean {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
-            case startbit_touchKeyPort.port1:
+            case demo_touchKeyPort.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P1);
                 break;
-            case startbit_touchKeyPort.port2:
+            case demo_touchKeyPort.port2:
                 pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P13);
                 break;
-            case startbit_touchKeyPort.port3:
+            case demo_touchKeyPort.port3:
                 if (P14_ad > 0xA)
                     status = 1
                 else
@@ -764,12 +764,12 @@ namespace startbit {
     /**
     * Get the condition of the line follower sensor
     */
-    //% weight=84 blockId=startbit_readLineFollowerStatus block="Line follower status|port %port|%status" group="3. Sensor." 
-    export function startbit_readLineFollowerStatus(port: startbit_lineFollowPort, status: startbit_lineFollower): boolean {
+    //% weight=84 blockId=demo_readLineFollowerStatus block="Line follower status|port %port|%status" group="3. Sensor." 
+    export function demo_readLineFollowerStatus(port: demo_lineFollowPort, status: demo_lineFollower): boolean {
         let s1 = 0;
         let s2 = 0;
         switch (port) {
-            case startbit_lineFollowPort.port1:
+            case demo_lineFollowPort.port1:
                 s1 = pins.analogReadPin(AnalogPin.P1);
                 s2 = pins.analogReadPin(AnalogPin.P2);
                 s1 = s1 * 255 / 1023;
@@ -796,19 +796,19 @@ namespace startbit {
     /**
      * Get the line follower sensor port ad value
      */
-    //% weight=83 blockId=startbit_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value" group="3. Sensor."  advanced=true
-    export function startbit_lineSensorValue(port: startbit_lineFollowPort, sensor: startbit_LineFollowerSensor): number {
+    //% weight=83 blockId=demo_lineSensorValue block="Get line follower sensor|port %port|%sensor|ad value" group="3. Sensor."  advanced=true
+    export function demo_lineSensorValue(port: demo_lineFollowPort, sensor: demo_LineFollowerSensor): number {
         let s1 = 0;
         let s2 = 0;
         switch (port) {
-            case startbit_lineFollowPort.port1:
+            case demo_lineFollowPort.port1:
                 s1 = pins.analogReadPin(AnalogPin.P1);
                 s2 = pins.analogReadPin(AnalogPin.P2);
                 s1 = s1 * 255 / 1023;
                 s2 = s2 * 255 / 1023;
                 break;
         }
-        if (sensor == startbit_LineFollowerSensor.LFSensor_1) {
+        if (sensor == demo_LineFollowerSensor.LFSensor_1) {
             return 255 - s1;
         }
         else {
@@ -824,16 +824,16 @@ namespace startbit {
      * Port 1: echo-P2, tri-P1
      * Port 2: echo-P14, tri-P13
      */
-    //% weight=81 blockId=startbit_ultrasonic  block="Ultrasonic|port %port|distance(cm)" group="3. Sensor." 
-    export function startbit_ultrasonic(port: startbit_ultrasonicPort): number {
+    //% weight=81 blockId=demo_ultrasonic  block="Ultrasonic|port %port|distance(cm)" group="3. Sensor." 
+    export function demo_ultrasonic(port: demo_ultrasonicPort): number {
         let echoPin: DigitalPin;
         let trigPin: DigitalPin;
         switch (port) {
-            case startbit_ultrasonicPort.port1:
+            case demo_ultrasonicPort.port1:
                 echoPin = DigitalPin.P2;
                 trigPin = DigitalPin.P1;
                 break;
-            case startbit_ultrasonicPort.port2:
+            case demo_ultrasonicPort.port2:
                 echoPin = DigitalPin.P14;
                 trigPin = DigitalPin.P13;
                 break;
@@ -863,8 +863,8 @@ namespace startbit {
     * Get the ad value of the photosensitive moudule
     * Port 1: P1 --- analog 
     */
-    //% weight=79 blockId=startbit_getphotosensitiveValue  block="Get Photosensitive|port %port|value(0~255)"  group="3. Sensor." 
-    export function startbit_getphotosensitiveValue(port: startbit_photosensitivePort): number {
+    //% weight=79 blockId=demo_getphotosensitiveValue  block="Get Photosensitive|port %port|value(0~255)"  group="3. Sensor." 
+    export function demo_getphotosensitiveValue(port: demo_photosensitivePort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
         return 255 - adValue;
@@ -874,12 +874,12 @@ namespace startbit {
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright
     * Port 1: P2 --- digital
     */
-    //% weight=78 blockId=startbit_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright" group="3. Sensor."  advanced=true
-    export function startbit_photosensitiveSensor(port: startbit_PhotosensitiveSensor): boolean {
+    //% weight=78 blockId=demo_photosensitiveSensor blockGap=50 block="Photosensitive sensor|port %port|detect bright" group="3. Sensor."  advanced=true
+    export function startbit_photosensitiveSensor(port: demo_PhotosensitiveSensor): boolean {
         let status = 0;
         let flag: boolean = false;
         switch (port) {
-            case startbit_PhotosensitiveSensor.port1:
+            case demo_PhotosensitiveSensor.port1:
                 pins.setPull(DigitalPin.P2, PinPullMode.PullUp);
                 status = pins.digitalReadPin(DigitalPin.P2);
                 break;
@@ -952,14 +952,14 @@ namespace startbit {
 	 * Initialize Light belt
 	 */
     //% weight=63 blockId=startbit_belt_initRGBLight block="Initialize light belt at port %port" group="1. Declaration."  advanced=true
-    export function startbit_belt_initRGBLight(port: startbit_ultrasonicPort) {
+    export function startbit_belt_initRGBLight(port: demo_ultrasonicPort) {
         switch (port) {
-            case startbit_ultrasonicPort.port1:
+            case demo_ultrasonicPort.port1:
                 if (!lhRGBLightBelt) {
                     lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P1, 30, StartbitRGBPixelMode.RGB);
                 }
                 break;
-            case startbit_ultrasonicPort.port2:
+            case demo_ultrasonicPort.port2:
                 if (!lhRGBLightBelt) {
                     lhRGBLightBelt = StartbitRGBLight.create(DigitalPin.P13, 30, StartbitRGBPixelMode.RGB);
                 }
@@ -1003,19 +1003,19 @@ namespace startbit {
     * Port 2: P13
     * port 3: 
     */
-    //% weight=82 blockId=startbit_touchButton block="Touch button|port %port|is pressed"    group="5. Mechaincs." 
-    export function startbit_touchButton(port: startbit_touchKeyPort): boolean {
+    //% weight=82 blockId=demo_touchButton block="Touch button|port %port|is pressed"    group="5. Mechaincs." 
+    export function startbit_touchButton(port: demo_touchKeyPort): boolean {
         let status: boolean = false;
         switch (port) {
-            case startbit_touchKeyPort.port1:
+            case demo_touchKeyPort.port1:
                 pins.setPull(DigitalPin.P1, PinPullMode.PullUp);
                 status = !pins.digitalReadPin(DigitalPin.P1);
                 break;
-            case startbit_touchKeyPort.port2:
+            case demo_touchKeyPort.port2:
                 pins.setPull(DigitalPin.P13, PinPullMode.PullUp);
                 status = !pins.digitalReadPin(DigitalPin.P13);
                 break;
-            case startbit_touchKeyPort.port3:
+            case demo_touchKeyPort.port3:
                 if (P14_ad > 0xA)
                     status = false;
                 else
@@ -1028,7 +1028,7 @@ namespace startbit {
     * Get the ad value of the knob moudule
     */
     //% weight=80 blockId=startbit_getKnobValue  block="Get knob|port %port|value(0~255)" group="5. Mechaincs." advanced=true
-    export function startbit_getKnobValue(port: startbit_knobPort): number {
+    export function startbit_getKnobValue(port: demo_knobPort): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
         return adValue;
@@ -1088,7 +1088,7 @@ namespace startbit {
      */
     //% blockId="LCD_setAddress" block=" Initialize LCD1602 I2C |%port address |%myAddr" group="1. Declaration."
     //% weight=51 blockExternalInputs=true
-    export function setAddress(port: startbit_LCDPort, myAddr: I2C_ADDR): void {
+    export function setAddress(port: demo_LCDPort, myAddr: I2C_ADDR): void {
         LCD_I2C_ADDR = myAddr
         setI2CAddress()
     }
@@ -1239,7 +1239,7 @@ namespace startbit {
         /**
         * TM1640 LED display
         */
-       export class startbit_TM1640LEDs {
+       export class demo_TM1640LEDs {
         buf: Buffer;
         clk: DigitalPin;
         dio: DigitalPin;
@@ -1394,14 +1394,14 @@ namespace startbit {
      * @param intensity the brightness of the LED, eg: 7
      * @param count the count of the LED, eg: 4
      */
-    function startbit_TM1640create(port: startbit_digitaltubePort, intensity: number, count: number): startbit_TM1640LEDs {
-        let digitaltube = new startbit_TM1640LEDs();
+    function demo_TM1640create(port: demo_digitaltubePort, intensity: number, count: number): demo_TM1640LEDs {
+        let digitaltube = new demo_TM1640LEDs();
         switch (port) {
-            case startbit_digitaltubePort.port1:
+            case demo_digitaltubePort.port1:
                 digitaltube.clk = DigitalPin.P2;
                 digitaltube.dio = DigitalPin.P1;
                 break;
-            case startbit_digitaltubePort.port2:
+            case demo_digitaltubePort.port2:
                 digitaltube.clk = DigitalPin.P14;
                 digitaltube.dio = DigitalPin.P13;
                 break;
@@ -1421,17 +1421,17 @@ namespace startbit {
      * @param intensity the brightness of the LED, eg: 7
      * @param count the count of the LED, eg: 4
      */
-    //% weight=77 blockId=startbit_digitaltube block="digitaltube|%port|intensity %intensity|LED count %count" group="1. Declaration."  advanced=true 
-    export function startbit_digitaltube(port: startbit_digitaltubePort, intensity: number, count: number) { 
-        Digitaltube = startbit_TM1640create(port, intensity, count);
+    //% weight=77 blockId=demo_digitaltube block="digitaltube|%port|intensity %intensity|LED count %count" group="1. Declaration."  advanced=true 
+    export function demo_digitaltube(port: demo_digitaltubePort, intensity: number, count: number) { 
+        Digitaltube = demo_TM1640create(port, intensity, count);
     }
 
     /**
      * show a number. 
      * @param num is a number, eg: 0
      */
-    //% weight=76 blockId=startbit_showNumber block="digitaltube show number| %num"  group="8. Display"   advanced=true
-    export function startbit_showNumber(num: number)  {
+    //% weight=76 blockId=demo_showNumber block="digitaltube show number| %num"  group="8. Display"   advanced=true
+    export function demo_showNumber(num: number)  {
         Digitaltube.showNumber(num);
     }
 
@@ -1440,8 +1440,8 @@ namespace startbit {
      * @param num number will show, eg: 5
      * @param bit the position of the LED, eg: 0
      */
-    //% weight=75 blockId=startbit_showbit block="digitaltube show digit| %num|at %bit"  group="8. Display"   advanced=true
-    export function startbit_showbit(num: number = 5, bit: number = 0) {
+    //% weight=75 blockId=demo_showbit block="digitaltube show digit| %num|at %bit"  group="8. Display"   advanced=true
+    export function demo_showbit(num: number = 5, bit: number = 0) {
         Digitaltube.showbit(num, bit);
     }
 
@@ -1449,8 +1449,8 @@ namespace startbit {
      * show a hex number. 
      * @param num is a hex number, eg: 0
      */
-    //% weight=74 blockId=startbit_showhex block="digitaltube show hex number| %num"  group="8. Display"   advanced=true
-    export function startbit_showhex(num: number) {
+    //% weight=74 blockId=demo_showhex block="digitaltube show hex number| %num"  group="8. Display"   advanced=true
+    export function demo_showhex(num: number) {
         Digitaltube.showHex(num);
     }
 
@@ -1459,8 +1459,8 @@ namespace startbit {
      * @param bit is the position, eg: 1
      * @param show is show/hide dp, eg: true
      */
-    //% weight=73 blockId=startbit_showDP block="digitaltube DotPoint at| %bit|show %show"  group="8. Display"   advanced=true
-    export function startbit_showDP(bit: number = 1, show: boolean = true) {
+    //% weight=73 blockId=demo_showDP block="digitaltube DotPoint at| %bit|show %show"  group="8. Display"   advanced=true
+    export function demo_showDP(bit: number = 1, show: boolean = true) {
         Digitaltube.showDP(bit, show);
     } 
 
@@ -1468,32 +1468,32 @@ namespace startbit {
      * set TM1640 intensity, range is [0-8], 0 is off.
      * @param val the brightness of the TM1640, eg: 7
      */
-    //% weight=72 blockId=startbit_intensity block=" digitaltube set intensity %val"  group="8. Display"   advanced=true
-    export function startbit_intensity(val: number = 7) {
+    //% weight=72 blockId=demo_intensity block=" digitaltube set intensity %val"  group="8. Display"   advanced=true
+    export function demo_intensity(val: number = 7) {
         Digitaltube.intensity(val);
     } 
 
     /**
      * turn off LED. 
      */
-    //% weight=71 blockId=startbit_off block="turn off digitaltube"  group="8. Display"   advanced=true
-    export function startbit_off() {
+    //% weight=71 blockId=demo_off block="turn off digitaltube"  group="8. Display"   advanced=true
+    export function demo_off() {
         Digitaltube.off();
     }
 
     /**
      * turn on LED. 
      */
-    //% weight=70 blockId=startbit_on block="turn on digitaltube"  group="8. Display"   advanced=true
-    export function startbit_on() {
+    //% weight=70 blockId=demo_on block="turn on digitaltube"  group="8. Display"   advanced=true
+    export function demo_on() {
         Digitaltube.on();
     }
 
     /**
      * clear LED. 
      */
-    //%weight=69 blockId=startbit_clear blockGap=50 block="clear digitaltube"  group="8. Display"   advanced=true
-    export function startbit_clear() {
+    //%weight=69 blockId=demo_clear blockGap=50 block="clear digitaltube"  group="8. Display"   advanced=true
+    export function demo_clear() {
         Digitaltube.clear();
     }  
 }
