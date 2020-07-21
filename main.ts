@@ -115,6 +115,19 @@ namespace Demo4 {
         //% block="Port 2"
         port2
     }
+    export enum DHTtype {
+        //% block="DHT11"
+        DHT11,
+        //% block="DHT22"
+        DHT22,
+    }
+    
+    export enum dataType {
+        //% block="humidity"
+        humidity,
+        //% block="temperature"
+        temperature,
+    }
 
     export enum demo_servorange {
         //% block="180"
@@ -928,7 +941,7 @@ namespace Demo4 {
     /**
     * Get the ad value of the  photocell sensor  moudule
     */
-    //% weight=80 blockId=demo_getphotocellValue  block="Get photocell|port %port|value(0~255)" group="5. Mechaincs." advanced=true
+    //% weight=80 blockId=demo_getphotocellValue  block="Get photocell|port %port|value(0~255)" group="3. Sensor." advanced=false
     export function demo_getphotocellValue(port: demo_photocellValue): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -937,7 +950,7 @@ namespace Demo4 {
         /**
     * Get the analog value  of the  soil humidity sensor moudule
     */
-    //% weight=80 blockId=Demo_getanalogSoilHumiditylValue  block="Get soid humidity|port %port|value(0~255)" group="5. Mechaincs." advanced=true
+    //% weight=80 blockId=Demo_getanalogSoilHumiditylValue  block="Get soid humidity|port %port|value(0~255)" group="3. Sensor." advanced=false
     export function demo_getanalogSoilHumiditylValue(port: demo_analogSoilHumiditylValue): number {
         let adValue = pins.analogReadPin(AnalogPin.P1);
         adValue = adValue * 255 / 1023;
@@ -1405,5 +1418,6 @@ namespace Demo4 {
     //%weight=69 blockId=demo_clear blockGap=50 block="clear digitaltube"  group="8. Display"   advanced=true
     export function demo_clear() {
         Digitaltube.clear();
-    }  
+    }
+    
 }
