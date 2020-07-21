@@ -1435,7 +1435,7 @@ namespace Demo4 {
     * Query data from DHT11/DHT22 sensor. If you are using 4 pins/no PCB board versions, you'll need to pull up the data pin. 
     * It is also recommended to wait 1 (DHT11) or 2 (DHT22) seconds between each query.
     */
-    //% block="Query $DHT|Data pin $demo_DHT11_22Port|%port pull up $pullUp|Serial output $serialOtput|Wait 2 sec after query $wait" group="1. Declaration."
+    //% block="Query $DHT|Port %port| Pin pull up $pullUp|Serial output $serialOtput|Wait 2 sec after query $wait" group="1. Declaration."
     //% pullUp.defl=true
     //% serialOtput.defl=false
     //% wait.defl=true
