@@ -1544,17 +1544,7 @@ namespace Demo4 {
     // export function readData(data: dataType): number {
     //     return data == dataType.humidity ? _humidity : _temperature
     // }
-    let startTime: number = 0
-    let endTime: number = 0
-    let checksum: number = 0
-    let checksumTmp: number = 0
-    let dataArray: boolean[] = []
-    let resultArray: number[] = []
 
-    for (let index = 0; index < 40; index++) dataArray.push(false)
-    for (let index = 0; index < 5; index++) resultArray.push(0)
-    _humidity = -999.0
-    _temperature = -999.0;
     /**
     * Read humidity/temperature data from lastest query of DHT11/DHT22
     */
@@ -1565,6 +1555,19 @@ namespace Demo4 {
     //% blockExternalInputs=true 
     export function readData(DHT: DHTtype, port: demo_DHT11_22Port, pullUp: boolean, serialOtput: boolean, wait: boolean,data: dataType): number {
         //initialize;
+        let startTime: number = 0
+        let endTime: number = 0
+        let checksum: number = 0
+        let checksumTmp: number = 0
+        let dataArray: boolean[] = []
+        let resultArray: number[] = []
+    
+    
+        _humidity = -999.0
+        _temperature = -999.0;
+        for (let index = 0; index < 40; index++) dataArray.push(false)
+        for (let index = 0; index < 5; index++) resultArray.push(0)
+        
         startTime = input.runningTimeMicros()
         let dataPin;
         switch (port) {
@@ -1622,9 +1625,7 @@ namespace Demo4 {
             }
             _humidity = (resultArray[0] * 256 + resultArray[1]) / 10
             _temperature = (resultArray[2] * 256 + resultArray[3]) / 10 * temp_sign;
-        }
-        // //wait 2 sec after query if needed;
-        // if (wait) basic.pause(2000)
+        };
         return dataType.humidity ? _humidity : _temperature
     };
 }
