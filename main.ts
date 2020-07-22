@@ -1433,7 +1433,7 @@ namespace Demo4 {
    //% block="Query $DHT|Port %port| Read $data" group="3. Sensor."  
     //% wait.defl=true
     //% blockExternalInputs=true 
-    export function readData(DHT: DHTtype, port: demo_DHT11_22Port, data: dataType): number {
+    export function demo_readData(DHT: DHTtype, port: demo_DHT11_22Port, data: dataType): number {
 
         let _temperature: number = -999.0;
         let _humidity: number = -999.0;
@@ -1503,6 +1503,11 @@ namespace Demo4 {
             _humidity = (resultArray[0] * 256 + resultArray[1]) / 10
             _temperature = (resultArray[2] * 256 + resultArray[3]) / 10 * temp_sign;
         }
-        return dataType.humidity ? _humidity : _temperature
+        basic.pause(100)
+        if (dataType.humidity){
+            return _humidity;
+        }else{
+            return _temperature;
+        }
     }
 }
