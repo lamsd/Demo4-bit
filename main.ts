@@ -1548,13 +1548,11 @@ namespace Demo4 {
     /**
     * Read humidity/temperature data from lastest query of DHT11/DHT22
     */
-   //% block="Query $DHT|Port %port| Pin pull up $pullUp|Serial output $serialOtput|Wait 2 sec after query $wait | Read $data" group="3. Sensor."  
-    //% pullUp.defl=true
-    //% serialOtput.defl=false
+   //% block="Query $DHT|Port %port| Read $data" group="3. Sensor."  
     //% wait.defl=true
     //% blockExternalInputs=true 
-    export function readData(DHT: DHTtype, port: demo_DHT11_22Port, pullUp: boolean, serialOtput: boolean, wait: boolean,data: dataType): number {
-        //initialize;
+    export function readData(DHT: DHTtype, port: demo_DHT11_22Port,   wait: boolean,data: dataType): number {
+
         let startTime: number = 0
         let endTime: number = 0
         let checksum: number = 0
@@ -1582,7 +1580,7 @@ namespace Demo4 {
         //request data
         pins.digitalWritePin(dataPin, 0) //begin protocol
         basic.pause(18)
-        if (pullUp) pins.setPull(dataPin, PinPullMode.PullUp) //pull up data pin if needed
+       
         pins.digitalReadPin(dataPin)
         control.waitMicros(20)
         while (pins.digitalReadPin(dataPin) == 1);
