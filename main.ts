@@ -1431,8 +1431,6 @@ namespace Demo4 {
     * Read humidity/temperature data from lastest query of DHT11/DHT22
     */
    //% block="Query $DHT|Port %port| Read $data" group="3. Sensor."  
-    //% wait.defl=true
-    //% blockExternalInputs=true 
     export function demo_readData(DHT: DHTtype, port: demo_DHT11_22Port, data: dataType): number {
 
         let _temperature: number = -999.0;
