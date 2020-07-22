@@ -1456,7 +1456,7 @@ namespace Demo4 {
         _readSuccessful = false
 
         startTime = input.runningTimeMicros()
-        let dataPin: DigitalPin;
+        let dataPin;
         switch (port) {
             case demo_DHT11_22Port.port1:
                 dataPin = DigitalPin.P1;
