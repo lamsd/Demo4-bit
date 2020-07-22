@@ -1456,23 +1456,34 @@ namespace Demo4 {
                 break;
         }
 
-        //request data
-        pins.digitalWritePin(dataPin, 0) //begin protocol
-        basic.pause(18)
+        // //request data
+        // pins.digitalWritePin(dataPin, 0) //begin protocol
+        // basic.pause(18)
        
-        pins.digitalReadPin(dataPin)
+        // pins.digitalReadPin(dataPin)
         control.waitMicros(20)
-        while (pins.digitalReadPin(dataPin) == 1);
-        while (pins.digitalReadPin(dataPin) == 0); //sensor response
-        while (pins.digitalReadPin(dataPin) == 1); //sensor response
+        // while (pins.digitalReadPin(dataPin) == 1);
+        // while (pins.digitalReadPin(dataPin) == 0); //sensor response
+        // while (pins.digitalReadPin(dataPin) == 1); //sensor response
+        while (dataPin == 1);
+        while (dataPin == 0); //sensor response
+        while (dataPin == 1); //sensor response
 
-        //read data (5 bytes)
+        // //read data (5 bytes)
+        // for (let index = 0; index < 40; index++) {
+        //     while (pins.digitalReadPin(dataPin) == 1);
+        //     while (pins.digitalReadPin(dataPin) == 0);
+        //     control.waitMicros(28)
+        //     //if sensor pull up data pin for more than 28 us it means 1, otherwise 0
+        //     if (pins.digitalReadPin(dataPin) == 1) dataArray[index] = true
+        // }
+                //read data (5 bytes)
         for (let index = 0; index < 40; index++) {
-            while (pins.digitalReadPin(dataPin) == 1);
-            while (pins.digitalReadPin(dataPin) == 0);
+            while (dataPin == 1);
+            while (dataPin == 0);
             control.waitMicros(28)
             //if sensor pull up data pin for more than 28 us it means 1, otherwise 0
-            if (pins.digitalReadPin(dataPin) == 1) dataArray[index] = true
+            if (dataPin == 1) dataArray[index] = true
         }
 
         //convert byte number array to integer
