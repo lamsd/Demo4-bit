@@ -1,6 +1,6 @@
 {
     "name": "Demoo",
-    "version": "0.1.25",
+    "version": "0.1.26",
     "description": "Blocks for Demo4 Micro:bit",
     "license": "MIT",
     "dependencies": {
