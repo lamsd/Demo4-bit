@@ -1498,7 +1498,7 @@ namespace Demo4 {
             _humidity = (resultArray[0] * 256 + resultArray[1]) / 10
             _temperature = (resultArray[2] * 256 + resultArray[3]) / 10 * temp_sign;
         }
-        basic.pause(2000)
+        basic.pause(1000)
         if (dataType.humidity){
             return _humidity;
         }else{
